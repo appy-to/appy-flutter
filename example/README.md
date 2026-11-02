@@ -4,15 +4,17 @@ A one-screen app that configures Appy, prints every deep link and attribution re
 
 The platform folders are not checked in. Generate them once with your Flutter version, then add the link configuration.
 
+This is Appy’s included **demo app**, not your production app. Copy your own key and link domain from **Apps & SDK → your app → SDK setup**. The demo’s Bundle ID and Android application ID must match an app you registered for testing. [Which values do I replace?](../SETUP.md)
+
 ## 1. Native SDKs
 
-With the repositories arranged as in [source setup](../SOURCE_SETUP.md), `../native-sdk.json` has `"source": "local"`, so the plugin builds against `sdks/ios` and `sdks/android`. Publish the Android SDK to its local Maven folder first:
+With the repositories arranged as in [source setup](../SOURCE_SETUP.md), `../native-sdk.json` has `"source": "local"`, so the plugin builds against the neighboring `ios/` checkout and the neighboring `android/` checkout. Publish the Android SDK to its local Maven folder first:
 
 ```bash
 cd ../../android && ./gradlew :appy-sdk:publishReleasePublicationToLocalRepository
 ```
 
-iOS needs nothing: Swift Package Manager reads `sdks/ios` directly. With CocoaPods instead of Swift Package Manager, add `pod 'AppySDK', :path => '../../../ios'` inside `target 'Runner' do` in `ios/Podfile`.
+iOS needs nothing: Swift Package Manager reads the neighboring `ios/` checkout directly. With CocoaPods instead of Swift Package Manager, add `pod 'AppySDK', :path => '../../../ios'` inside `target 'Runner' do` in `ios/Podfile`.
 
 ## 2. Generate the platform folders
 
@@ -53,7 +55,7 @@ In Xcode (`open ios/Runner.xcworkspace`), select the Runner target:
 ## 5. Run
 
 ```bash
-flutter run --dart-define=APPY_PUBLISHABLE_KEY=appy_pk_live_... --dart-define=APPY_LINK_DOMAIN=acme.appy.to
+flutter run --dart-define=APPY_PUBLISHABLE_KEY=YOUR_PUBLISHABLE_KEY --dart-define=APPY_LINK_DOMAIN=acme.appy.to
 ```
 
 Open a link while the app runs and again after stopping it:

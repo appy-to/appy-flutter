@@ -1,6 +1,6 @@
 # Build the example from public sources
 
-Registry distribution is being prepared. The current branch uses local native SDKs. Clone the native repositories beside this plugin using the directory names below; this matches `native-sdk.json` without editing it.
+This package is currently a source preview. To try the included example, download the package and the two native libraries it uses. Keep the directory names shown below so the example can find them. Start by [getting your app's dashboard values](SETUP.md).
 
 ```bash
 mkdir appy-sdks
@@ -22,4 +22,4 @@ Set `ANDROID_HOME` to your Android SDK directory if Gradle cannot find it. For i
 
 Then follow the [example app setup](example/README.md), which covers platform link configuration, the publishable key and running the example. The example requires an Appy Enterprise app to use the hosted endpoints.
 
-For consumer app integration and the upcoming registry installation, see the [quickstart](QUICKSTART.md) and [full guide](README.md). Do not install the current branch as though the native packages were already available from all registries.
+For consumer app integration and the upcoming registry installation, see the [quickstart](QUICKSTART.md) and [full guide](README.md). Registry installation will be documented here after the packages are published.

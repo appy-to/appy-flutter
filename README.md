@@ -2,9 +2,11 @@
 
 ![Appy — Deep links, install attribution and revenue analytics](docs/assets/appy-banner.svg)
 
-**[Start here: short installation guide](QUICKSTART.md)** · [Full documentation](https://appy.to/docs/sdk/flutter)
+**[Start here: short installation guide](QUICKSTART.md)** · [Which names and values do I replace?](SETUP.md)
 
-> Public package release is being prepared. This source tree currently uses local native SDKs; the registry commands below apply after the first verified public release. Use [the source setup](SOURCE_SETUP.md) to build the example, or contact Appy for onboarding.
+> **Source preview:** this package is not published to pub.dev yet. [Build the included example from source](SOURCE_SETUP.md).
+
+**This is a library for your own app.** Keep the `Appy` SDK/package names in code; use your own app name, identifiers, publishable key and link domain. [Get those values from the dashboard](SETUP.md).
 
 `appy_sdk` connects a Flutter app to [Appy](https://appy.to) smart links and QR codes on iOS and Android:
 
@@ -24,27 +26,20 @@ The plugin is a thin layer over the native [Appy iOS SDK](https://appy.to/docs/s
 
 ## Install
 
-```bash
-flutter pub add appy_sdk
-```
+This is currently a **source preview**. Follow [Build the example from source](SOURCE_SETUP.md) to download this package and its native dependencies. A one-command registry install is not available yet.
 
-- **iOS with Swift Package Manager** (the default since Flutter 3.44): nothing else to do. The plugin pulls in the `AppySDK` Swift package.
-- **iOS with CocoaPods**: the CocoaPods trunk stopped accepting new pods, so `AppySDK` is installed from its Git repository. Add this line inside `target 'Runner' do` in `ios/Podfile`, then run `pod install` in `ios/`:
-
-  ```ruby
-  pod 'AppySDK', :git => 'https://github.com/appy-to/appy-ios-sdk.git', :tag => '1.0.0'
-  ```
-
-- **Android**: nothing else to do. The plugin depends on `to.appy:appy-sdk` from Maven Central.
+After that source setup, the sections below explain how to connect the SDK to your app. Keep the existing native dependency setup from the source guide.
 
 ## 1. Register your app
 
-Register the app once under **Apps & SDK** in the Appy dashboard, or with `POST /v1/apps`, with:
+Open **Apps & SDK → New app** in the [Appy dashboard](https://appy.to). Enter your own app name, choose its link subdomain, and select the platforms you ship:
 
-- iOS: your Apple Team ID and bundle ID. Appy then serves the Apple App Site Association file for your link domain.
-- Android: your package name and the SHA-256 fingerprints of every signing certificate, including Google Play's app signing key. Appy then serves `assetlinks.json`.
+- **iOS:** your Apple Team ID and the Bundle ID from Xcode.
+- **Android:** your `applicationId` and the SHA-256 fingerprints of the signing certificates used for your builds, including Play App Signing for Play Store builds.
 
-You get a publishable key and a link domain such as `acme.appy.to`. The [iOS](https://appy.to/docs/sdk/ios) and [Android](https://appy.to/docs/sdk/android) guides explain each value.
+Select **Register app**. Open **SDK setup** on the app's page and copy the **Publishable key** and **Link domain**. One dashboard app can contain both platforms. [Where to find every value](SETUP.md).
+
+In the examples, replace `YOUR_PUBLISHABLE_KEY` and `your-app.appy.to` with those copied values. Keep the `Appy` class names and package/import names. You do not need a secret API key or a terminal registration request.
 
 ## 2. Platform setup
 
@@ -52,8 +47,8 @@ Appy delivers its links through `Appy.onDeepLink`. Flutter's built-in deep linki
 
 ### iOS
 
-1. In Xcode, open `ios/Runner.xcworkspace`, select the **Runner** target, add the **Associated Domains** capability and enter `applinks:acme.appy.to` with your link domain. While developing, add `applinks:acme.appy.to?mode=developer` too.
-2. Under **Info > URL Types**, add your app's URL scheme, for example `acme`. In-app browsers that ignore Universal Links open this scheme instead.
+1. In Xcode, open `ios/Runner.xcworkspace`, select the **Runner** target, add the **Associated Domains** capability and enter `applinks:your-app.appy.to` with your link domain. While developing, add `applinks:your-app.appy.to?mode=developer` too.
+2. Under **Info > URL Types**, add your app's URL scheme, for example `yourapp`. In-app browsers that ignore Universal Links open this scheme instead.
 3. In `ios/Runner/Info.plist`, turn off Flutter's deep linking:
 
    ```xml
@@ -74,14 +69,14 @@ In `android/app/src/main/AndroidManifest.xml`, inside the `<activity>` of `MainA
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="https" android:host="acme.appy.to" />
+    <data android:scheme="https" android:host="your-app.appy.to" />
 </intent-filter>
 
 <intent-filter>
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="acme" />
+    <data android:scheme="yourapp" />
 </intent-filter>
 ```
 
@@ -99,8 +94,8 @@ import 'package:flutter/material.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Appy.configure(AppyConfiguration(
-    publishableKey: 'appy_pk_live_…',
-    linkDomains: const ['acme.appy.to'],
+    publishableKey: 'YOUR_PUBLISHABLE_KEY',
+    linkDomains: const ['your-app.appy.to'],
     logLevel: kDebugMode ? AppyLogLevel.debug : AppyLogLevel.error,
   ));
   runApp(const MyApp());
@@ -157,8 +152,8 @@ An `AppyDeepLink` has:
 
 | Property | Meaning |
 |---|---|
-| `url` | The Appy link, for example `https://acme.appy.to/spring?item=42` |
-| `deeplinkUrl` | The in-app destination set on the link, for example `acme://items?item=42` |
+| `url` | The Appy link, for example `https://your-app.appy.to/spring?item=42` |
+| `deeplinkUrl` | The in-app destination set on the link, for example `yourapp://items?item=42` |
 | `slug` | The link's slug, for example `spring` |
 | `parameters` | The link's query parameters, including `utm_*`, without the reserved `appy_` ones |
 | `isDeferred` | `true` when the link was tapped before the app was installed |
@@ -185,7 +180,7 @@ Future<void> onNotificationTap(String link) async {
 
 When someone taps an Appy link without your app installed, Appy remembers the tap and sends them to the store. On the first launch after install the plugin asks Appy for that link, and `onDeepLink` emits `AppyDeepLinkFound` with `isDeferred == true`, or `AppyDeepLinkNotFound` for an organic install. On Android the store's install referrer carries the link; on iOS Appy matches the install to the tap. The answer comes within `deferredDeepLinkTimeout`, counted from `configure`; until Appy has answered a first launch, later launches ask again.
 
-With `openDeferredDeepLinks: true`, the SDK also opens the deferred link's `deeplinkUrl` (for example `acme://items?item=42`) after emitting it. Your app receives that URL like any other link to its own scheme, so route deferred links either from `onDeepLink` or from your URL scheme handler, not both. The SDK opens only URLs your app registered, so it never sends the user to a browser.
+With `openDeferredDeepLinks: true`, the SDK also opens the deferred link's `deeplinkUrl` (for example `yourapp://items?item=42`) after emitting it. Your app receives that URL like any other link to its own scheme, so route deferred links either from `onDeepLink` or from your URL scheme handler, not both. The SDK opens only URLs your app registered, so it never sends the user to a browser.
 
 To test, delete the app, tap an Appy link on the same device, install your build and open it. Every install gets a new random install ID, so there is nothing to reset.
 
@@ -258,15 +253,15 @@ When tracking turns on, the first-launch lookup starts and `onDeepLink` and `onA
 final url = await Appy.buildLink('spring', parameters: {'ref': referralCode});
 ```
 
-This returns `https://acme.appy.to/spring?ref=…` on the first link domain, or `null` before `configure`, without a link domain, or for an invalid slug. The slug must belong to a link in your account.
+This returns `https://your-app.appy.to/spring?ref=…` on the first link domain, or `null` before `configure`, without a link domain, or for an invalid slug. The slug must belong to a link in your account.
 
 ## 10. Debugging
 
 Set `logLevel: AppyLogLevel.debug`. On Android run `adb logcat -s Appy`; on iOS filter the Xcode console or Console.app on `subsystem:to.appy.sdk`.
 
 ```bash
-xcrun simctl openurl booted "https://acme.appy.to/spring?item=42"
-adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://acme.appy.to/spring?item=42"'
+xcrun simctl openurl booted "https://your-app.appy.to/spring?item=42"
+adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://your-app.appy.to/spring?item=42"'
 ```
 
 | Symptom | Check |
