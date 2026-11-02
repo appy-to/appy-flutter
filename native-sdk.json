@@ -1,5 +1,5 @@
 {
-  "source": "local",
+  "source": "published",
   "version": "1.0.0",
   "ios": {
     "packageUrl": "https://github.com/appy-to/appy-ios-sdk.git",

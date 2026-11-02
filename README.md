@@ -4,7 +4,7 @@
 
 Deep links, install attribution and in-app events for Flutter on iOS and Android.
 
-**Source preview** · Flutter 3.44+ · iOS 13+ / Android API 21+ · [MIT](LICENSE)
+**v1.0.0** · Flutter 3.44+ · iOS 13+ / Android API 21+ · [MIT](LICENSE)
 
 [Step-by-step setup](QUICKSTART.md) · [Your dashboard values](SETUP.md) · [API reference](#api-reference) · [Support](mailto:support@appy.to)
 
@@ -18,7 +18,11 @@ Replace `YOUR_PUBLISHABLE_KEY` and `your-app.appy.to` below with those two value
 
 ### 2. Install
 
-The package is not published on pub.dev yet. Use [Source setup](SOURCE_SETUP.md) to download the plugin and native SDKs, then run the included example. A registry install command will be added when the package is published.
+Install from [pub.dev](https://pub.dev/packages/appy_sdk):
+
+```bash
+flutter pub add appy_sdk
+```
 
 ### 3. Configure and connect links
 
@@ -51,9 +55,13 @@ The sections below cover platform settings, callbacks, events, consent, troubles
 
 ## Install
 
-This is currently a **source preview**. Follow [Build the example from source](SOURCE_SETUP.md) to download this package and its native dependencies. A one-command registry install is not available yet.
+```bash
+flutter pub add appy_sdk
+```
 
-After that source setup, the sections below explain how to connect the SDK to your app. Keep the existing native dependency setup from the source guide.
+The package resolves the native SDKs from their public releases. To develop the plugin alongside local native SDK changes, use [Source setup](SOURCE_SETUP.md).
+
+After installation, use the sections below to connect the SDK to your app. Swift Package Manager resolves the public iOS package automatically. If your app uses CocoaPods instead, add `pod 'AppySDK', :git => 'https://github.com/appy-to/appy-ios-sdk.git', :tag => '1.0.0'` inside the app target in `ios/Podfile`.
 
 ## 1. Register your app
 

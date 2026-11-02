@@ -1,6 +1,6 @@
 # Add Appy to a Flutter app
 
-**Current availability:** the Flutter package is a source preview. It is not published on pub.dev yet. Start with the source example below; a registry install command is not available yet.
+Install `appy_sdk` from pub.dev, then connect it to your app as shown below.
 
 Requires Flutter 3.44+, Dart 3.12+, iOS 13+ or Android API 21+.
 
@@ -18,13 +18,17 @@ In every snippet below:
 
 The hosted SDK features require an Enterprise plan. You do not need a secret API key or a `curl` registration request for these steps.
 
-## 2. Download and run the source example
+## 2. Install the package
 
-Follow [Source setup](SOURCE_SETUP.md) to clone this package and its native dependencies, then use the [example app instructions](example/README.md). Keep the directory names shown there so the example can find the native SDKs.
+```bash
+flutter pub add appy_sdk
+```
+
+The iOS dependency supports Swift Package Manager (SPM); Android resolves the native SDK from Maven Central.
 
 ## 3. Configure the SDK in your app
 
-After the source dependencies are set up, add this import:
+After installing the package, add this import:
 
 ```dart
 import 'package:appy_sdk/appy_sdk.dart';
