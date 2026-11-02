@@ -24,6 +24,15 @@ flutter create --platforms=android,ios --org to.appy.example .
 
 ## 3. Android
 
+For this source preview, the example app also needs the local Maven repository when it resolves the native SDK transitively. In the generated `android/build.gradle.kts`, add this entry inside `allprojects { repositories { ... } }`:
+
+```kotlin
+maven { url = uri(rootProject.file("../../../android/build/local-maven")) }
+```
+
+This path assumes the directory layout in the source setup guide. A published wrapper uses Maven Central and does not need this local repository.
+
+
 In `android/app/src/main/AndroidManifest.xml`, inside the `MainActivity` `<activity>` element, add the App Link and custom-scheme filters and turn off Flutter's own deep linking so Appy links are routed only once:
 
 ```xml

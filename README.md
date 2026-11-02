@@ -1,6 +1,6 @@
 # Appy for Flutter
 
-![Appy — Deep links, install attribution and revenue analytics](docs/assets/appy-banner.svg)
+![Appy — Deep links, install attribution and revenue analytics](doc/assets/appy-banner.svg)
 
 Deep links, install attribution and in-app events for Flutter on iOS and Android.
 

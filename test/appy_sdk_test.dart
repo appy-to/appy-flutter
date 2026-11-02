@@ -199,9 +199,9 @@ void main() {
         }),
       );
 
-      final attributions = await Appy.onAttribution.take(3).toList();
+      final receivedAttributions = await Appy.onAttribution.take(3).toList();
 
-      expect(attributions, [
+      expect(receivedAttributions, [
         const AppyAttribution(isOrganic: true),
         AppyAttribution(
           isOrganic: false,
