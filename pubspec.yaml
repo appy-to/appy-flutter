@@ -1,0 +1,35 @@
+name: appy_sdk
+description: Deep links, deferred deep links, install attribution and in-app events for Flutter apps that use Appy smart links and QR codes.
+version: 1.0.0
+homepage: https://appy.to/docs/sdk/flutter
+repository: https://github.com/appy-to/appy-flutter
+issue_tracker: https://github.com/appy-to/appy-flutter/issues
+documentation: https://appy.to/docs/sdk/flutter
+topics:
+  - deep-linking
+  - dynamic-links
+  - attribution
+  - analytics
+  - qr-code
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.44.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: to.appy.sdk.flutter
+        pluginClass: AppySdkPlugin
+      ios:
+        pluginClass: AppySdkPlugin

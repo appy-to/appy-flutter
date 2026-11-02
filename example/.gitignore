@@ -1,0 +1,14 @@
+.DS_Store
+.dart_tool/
+build/
+pubspec.lock
+.flutter-plugins
+.flutter-plugins-dependencies
+.metadata
+android/
+ios/
+linux/
+macos/
+web/
+windows/
+test/

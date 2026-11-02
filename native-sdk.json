@@ -1,0 +1,12 @@
+{
+  "source": "local",
+  "version": "1.0.0",
+  "ios": {
+    "packageUrl": "https://github.com/appy-to/appy-ios-sdk.git",
+    "localPath": "../ios"
+  },
+  "android": {
+    "coordinates": "to.appy:appy-sdk",
+    "localRepository": "../android/build/local-maven"
+  }
+}
